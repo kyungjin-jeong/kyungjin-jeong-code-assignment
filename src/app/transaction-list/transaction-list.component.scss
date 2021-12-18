@@ -1,0 +1,18 @@
+.table-scrollbar {
+    position: relative;
+    height: 350px;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+.btn-middle {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+.p-float-left {
+    margin: 1%;
+    float: left;
+}

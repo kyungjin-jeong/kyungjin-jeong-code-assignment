@@ -1,0 +1,13 @@
+%middle {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);    
+}
+.btn-middle {
+    @extend %middle;
+}
+.card-middle {
+    width: 80%;
+    @extend %middle;
+}

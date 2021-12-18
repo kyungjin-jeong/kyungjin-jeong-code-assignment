@@ -1,0 +1,59 @@
+
+<div *ngIf="parentTransaction == null">
+  <form class="form-inline" [formGroup]="transactionByDatesForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <input type="date" id="startDate" formControlName="startDate" class="form-control mx-sm-3" required>
+    </div>
+    ~
+    <div class="form-group">     
+      <input type="date" id="endDate" formControlName="endDate" class="form-control mx-sm-3" required>
+    </div>
+
+    <div *ngIf="startDate != null && endDate != null">
+      <button [disabled]="startDate.errors?.['required'] || endDate.errors?.['required']" type="submit" class="btn btn-dark">Search</button>
+    </div>
+    <button (click)="resetTransactions()" class="btn btn-primary">Reset</button>
+  </form>
+
+  <div class="card-body">
+    <div class="table-wrapper-scroll-y table-scrollbar">
+      <table class="table table-bordered table-striped">
+        <colgroup>
+          <col width="10%"/>
+          <col width="15%"/>
+          <col width="*"/>
+          <col width="10%"/>
+        </colgroup>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Comments</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of transactions">
+            <td>{{ transaction.id }}</td>
+            <td>{{ transaction.date | date:'dd/MM/yyyy' }}</td>
+            <td>{{ transaction.comments }}</td>
+            <td><button class="btn" (click)="setParentTransaction(transaction)">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="btn-group btn-middle" role="group" *ngIf="transactionPaging != undefined">
+        <div *ngIf="transactionPaging.totalPages > 1">
+          <button *ngIf="transactionPaging.number > 0" type="button" class="btn btn-dark" (click)="handlePage(transactionPaging.number-1)">Previous</button>
+          Page {{ transactionPaging.number + 1 }} of {{ transactionPaging.totalPages }}
+          <button *ngIf="transactionPaging.number+1 != transactionPaging.totalPages" type="button" class="btn btn-dark" (click)="handlePage(transactionPaging.number+1)">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-transaction-detail 
+  [childTransaction]="parentTransaction" 
+  (initParentTransaction)="setParentTransaction($event)" 
+  (updateParentList)="updateList($event)">
+</app-transaction-detail>
